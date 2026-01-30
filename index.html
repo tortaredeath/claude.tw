@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Meetup Taipei - March 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-dark: #1a1a1a;
+            --color-bg-section: #0f0f0f;
+            --color-bg-card: #252525;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #a3a3a3;
+            --color-text-muted: #737373;
+            --color-accent: #d97757;
+            --color-accent-hover: #e8896a;
+            --color-border: #333333;
+            --color-success: #4ade80;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--color-accent), #f4a261);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text-primary);
+        }
+
+        .lang-toggle {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--color-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(180deg, var(--color-bg-section) 0%, var(--color-bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(217, 119, 87, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(217, 119, 87, 0.05) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(217, 119, 87, 0.15);
+            color: var(--color-accent);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(217, 119, 87, 0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--color-accent), #f4a261);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--color-text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .hero-meta-item {
+            text-align: center;
+        }
+
+        .hero-meta-item .label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero-meta-item .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(217, 119, 87, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .section-subtitle {
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Schedule */
+        .schedule-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .schedule-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+            padding: 1.5rem;
+            background: var(--color-bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--color-border);
+            transition: var(--transition-smooth);
+        }
+
+        .schedule-item:hover {
+            border-color: rgba(217, 119, 87, 0.3);
+            transform: translateX(4px);
+        }
+
+        .schedule-time {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.9rem;
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .schedule-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .schedule-content p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .feature-card:hover {
+            border-color: rgba(217, 119, 87, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(217, 119, 87, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Promotion Plan */
+        .promo-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .promo-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--color-accent), transparent);
+        }
+
+        .promo-item {
+            position: relative;
+            padding-bottom: 2.5rem;
+        }
+
+        .promo-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 10px;
+            height: 10px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            transform: translateX(-4px);
+        }
+
+        .promo-item .week {
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-item p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Support Request */
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .support-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .support-card .amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .support-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .support-card p {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+        }
+
+        .support-card .check-list {
+            list-style: none;
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+
+        .support-card .check-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .support-card .check-list li::before {
+            content: '✓';
+            color: var(--color-success);
+            font-weight: 700;
+        }
+
+        /* Venue */
+        .venue-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .venue-gallery {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--color-bg-card);
+        }
+
+        .venue-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .venue-slide {
+            min-width: 100%;
+            aspect-ratio: 16/10;
+        }
+
+        .venue-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .venue-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .venue-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .venue-dot.active {
+            background: var(--color-accent);
+        }
+
+        .venue-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .venue-nav:hover {
+            background: var(--color-accent);
+        }
+
+        .venue-nav.prev {
+            left: 1rem;
+        }
+
+        .venue-nav.next {
+            right: 1rem;
+        }
+
+        .venue-video {
+            margin-top: 2rem;
+        }
+
+        .video-thumbnail {
+            display: block;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--color-bg-card);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-thumbnail .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.9;
+            transition: var(--transition-smooth);
+        }
+
+        .video-thumbnail:hover .play-button {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-thumbnail .video-label {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .venue-placeholder {
+            background: var(--color-bg-card);
+            border: 2px dashed var(--color-border);
+            border-radius: 16px;
+            aspect-ratio: 16/10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+        }
+
+        .venue-placeholder svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .venue-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .venue-info p {
+            color: var(--color-text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .venue-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .venue-feature {
+            background: rgba(217, 119, 87, 0.1);
+            color: var(--color-accent);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Comparison */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--color-bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .comparison-table th {
+            background: rgba(217, 119, 87, 0.1);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .comparison-table td {
+            font-size: 0.95rem;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .highlight-col {
+            background: rgba(217, 119, 87, 0.05);
+        }
+
+        /* Contact */
+        .contact-section {
+            background: var(--color-bg-section);
+            border-radius: 24px;
+            padding: 4rem;
+            text-align: center;
+            border: 1px solid var(--color-border);
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item .label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item .value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .contact-item a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-meta {
+                gap: 1.5rem;
+            }
+
+            .schedule-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .venue-content {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.85rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 1rem;
+            }
+
+            .contact-section {
+                padding: 2rem;
+            }
+        }
+
+        /* Language Toggle Content */
+        .bilingual {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .bilingual .zh {
+            font-size: inherit;
+        }
+
+        .bilingual .en {
+            font-size: 0.85em;
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+
+        .lang-en .bilingual .zh { display: none; }
+        .lang-en .bilingual .en {
+            display: block;
+            font-size: inherit;
+            color: inherit;
+            font-weight: inherit;
+        }
+
+        .lang-zh .bilingual .en { display: block; }
+        .lang-zh .bilingual .zh { display: block; }
+    </style>
+</head>
+<body class="lang-zh">
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">CC</div>
+                <span>Claude Code Meetup</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#schedule">
+                    <span class="bilingual">
+                        <span class="zh">活動流程</span>
+                        <span class="en">Schedule</span>
+                    </span>
+                </a></li>
+                <li><a href="#features">
+                    <span class="bilingual">
+                        <span class="zh">活動特色</span>
+                        <span class="en">Features</span>
+                    </span>
+                </a></li>
+                <li><a href="#promotion">
+                    <span class="bilingual">
+                        <span class="zh">曝光計畫</span>
+                        <span class="en">Promotion</span>
+                    </span>
+                </a></li>
+                <li><a href="#support">
+                    <span class="bilingual">
+                        <span class="zh">原廠支援</span>
+                        <span class="en">Support</span>
+                    </span>
+                </a></li>
+            </ul>
+            <button class="lang-toggle" onclick="toggleLanguage()">中/EN</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="bilingual">
+                    <span class="zh">🎉 活動企劃提案</span>
+                    <span class="en">🎉 Event Proposal</span>
+                </span>
+            </div>
+            <h1>
+                <span class="bilingual">
+                    <span class="zh"><span class="highlight">Claude Code</span> Meetup Taipei</span>
+                    <span class="en"><span class="highlight">Claude Code</span> Meetup Taipei</span>
+                </span>
+            </h1>
+            <p class="hero-subtitle">
+                <span class="bilingual">
+                    <span class="zh">2026 年 3 月・南港鈦坦科技辦公室<br>小型深度技術交流聚會</span>
+                    <span class="en">March 2026 · Titansoft Office, Nangang<br>An intimate technical meetup for deep discussions</span>
+                </span>
+            </p>
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <div class="label">
+                        <span class="bilingual">
+                            <span class="zh">日期</span>
+                            <span class="en">Date</span>
+                        </span>
+                    </div>
+                    <div class="value">
+                        <span class="bilingual">
+                            <span class="zh">2026 年 3 月</span>
+                            <span class="en">March 2026</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="hero-meta-item">
+                    <div class="label">
+                        <span class="bilingual">
+                            <span class="zh">時間</span>
+                            <span class="en">Time</span>
+                        </span>
+                    </div>
+                    <div class="value">17:00 - 20:30</div>
+                </div>
+                <div class="hero-meta-item">
+                    <div class="label">
+                        <span class="bilingual">
+                            <span class="zh">預計人數</span>
+                            <span class="en">Capacity</span>
+                        </span>
+                    </div>
+                    <div class="value">
+                        <span class="bilingual">
+                            <span class="zh">40-50 人</span>
+                            <span class="en">40-50 people</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="hero-meta-item">
+                    <div class="label">
+                        <span class="bilingual">
+                            <span class="zh">報名平台</span>
+                            <span class="en">Registration</span>
+                        </span>
+                    </div>
+                    <div class="value">Lu.ma</div>
+                </div>
+            </div>
+            <div class="cta-buttons">
+                <a href="#support" class="btn btn-primary">
+                    <span class="bilingual">
+                        <span class="zh">查看原廠支援需求</span>
+                        <span class="en">View Support Request</span>
+                    </span>
+                </a>
+                <a href="#venue" class="btn btn-secondary">
+                    <span class="bilingual">
+                        <span class="zh">瀏覽場地資訊</span>
+                        <span class="en">View Venue Info</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule">
+        <div class="section-header">
+            <div class="section-label">Schedule</div>
+            <h2 class="section-title">
+                <span class="bilingual">
+                    <span class="zh">活動流程</span>
+                    <span class="en">Event Schedule</span>
+                </span>
+            </h2>
+            <p class="section-subtitle">
+                <span class="bilingual">
+                    <span class="zh">精心規劃的 3.5 小時技術交流與學習</span>
+                    <span class="en">A carefully planned 3.5-hour technical exchange and learning experience</span>
+                </span>
+            </p>
+        </div>
+        <div class="schedule-grid">
+            <div class="schedule-item">
+                <div class="schedule-time">17:00 - 17:30</div>
+                <div class="schedule-content">
+                    <h3>
+                        <span class="bilingual">
+                            <span class="zh">開放入場 & 交流</span>
+                            <span class="en">Check-in & Networking</span>
+                        </span>
+                    </h3>
+                    <p>
+                        <span class="bilingual">
+                            <span class="zh">簽到、自由交流、網路連線測試</span>
+                            <span class="en">Registration, free networking, connectivity check</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-time">17:30 - 17:45</div>
+                <div class="schedule-content">
+                    <h3>
+                        <span class="bilingual">
+                            <span class="zh">開場介紹</span>
+                            <span class="en">Opening Remarks</span>
+                        </span>
+                    </h3>
+                    <p>
+                        <span class="bilingual">
+                            <span class="zh">主辦人介紹活動目的、鈦坦科技簡介</span>
+                            <span class="en">Event introduction by host, Titansoft company overview</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-time">17:45 - 18:30</div>
+                <div class="schedule-content">
+                    <h3>
+                        <span class="bilingual">
+                            <span class="zh">🌟 Anthropic 工程師分享</span>
+                            <span class="en">🌟 Anthropic Engineer Presentation</span>
+                        </span>
+                    </h3>
+                    <p>
+                        <span class="bilingual">
+                            <span class="zh">Co-work 新功能介紹（線上或現場）</span>
+                            <span class="en">Co-work feature introduction (online or in-person)</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-time">18:30 - 19:00</div>
+                <div class="schedule-content">
+                    <h3>
+                        <span class="bilingual">
+                            <span class="zh">工程師實戰分享</span>
+                            <span class="en">Engineer Experience Sharing</span>
+                        </span>
+                    </h3>
+                    <p>
+                        <span class="bilingual">
+                            <span class="zh">現場工程師分享 Claude Code 使用經驗</span>
+                            <span class="en">Local engineers share Claude Code usage experience</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-time">19:00 - 19:30</div>
+                <div class="schedule-content">
+                    <h3>
+                        <span class="bilingual">
+                            <span class="zh">Q&A 互動環節</span>
+                            <span class="en">Interactive Q&A Session</span>
+                        </span>
+                    </h3>
+                    <p>
+                        <span class="bilingual">
+                            <span class="zh">回答參與者事先提交的問題</span>
+                            <span class="en">Answer pre-submitted questions from participants</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-time">19:30 - 20:30</div>
+                <div class="schedule-content">
+                    <h3>
+                        <span class="bilingual">
+                            <span class="zh">🍕 會後交流</span>
+                            <span class="en">🍕 After-party Networking</span>
+                        </span>
+                    </h3>
+                    <p>
+                        <span class="bilingual">
+                            <span class="zh">Pizza、飲料、酒精飲料、自由深度交流</span>
+                            <span class="en">Pizza, drinks, alcoholic beverages, free networking</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-header">
+            <div class="section-label">Features</div>
+            <h2 class="section-title">
+                <span class="bilingual">
+                    <span class="zh">活動特色</span>
+                    <span class="en">Event Highlights</span>
+                </span>
+            </h2>
+            <p class="section-subtitle">
+                <span class="bilingual">
+                    <span class="zh">為什麼這次活動值得期待</span>
+                    <span class="en">Why this event is worth attending</span>
+                </span>
+            </p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎤</div>
+                <h3>
+                    <span class="bilingual">
+                        <span class="zh">Anthropic 官方工程師分享</span>
+                        <span class="en">Official Anthropic Engineer Talk</span>
+                    </span>
+                </h3>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">深入介紹 Co-work 新功能，直接從原廠獲得第一手資訊</span>
+                        <span class="en">Deep dive into Co-work features, first-hand information directly from Anthropic</span>
+                    </span>
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>
+                    <span class="bilingual">
+                        <span class="zh">實戰經驗分享</span>
+                        <span class="en">Real-world Experience Sharing</span>
+                    </span>
+                </h3>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">台灣開發者分享 Claude Code 實際應用心得與技巧</span>
+                        <span class="en">Taiwan developers share practical Claude Code tips and tricks</span>
+                    </span>
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">❓</div>
+                <h3>
+                    <span class="bilingual">
+                        <span class="zh">互動 Q&A</span>
+                        <span class="en">Interactive Q&A</span>
+                    </span>
+                </h3>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">參與者可事先提交問題，現場互動解答</span>
+                        <span class="en">Pre-submit questions and get answers during the live session</span>
+                    </span>
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>
+                    <span class="bilingual">
+                        <span class="zh">深度交流氛圍</span>
+                        <span class="en">Intimate Networking</span>
+                    </span>
+                </h3>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">40-50 人規模，促進更有意義的人脈連結</span>
+                        <span class="en">40-50 attendees for meaningful connections</span>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotion Section -->
+    <section id="promotion">
+        <div class="section-header">
+            <div class="section-label">Promotion Plan</div>
+            <h2 class="section-title">
+                <span class="bilingual">
+                    <span class="zh">曝光計畫</span>
+                    <span class="en">Marketing & Promotion Strategy</span>
+                </span>
+            </h2>
+            <p class="section-subtitle">
+                <span class="bilingual">
+                    <span class="zh">四週宣傳時程與管道策略</span>
+                    <span class="en">4-week promotional timeline and channel strategy</span>
+                </span>
+            </p>
+        </div>
+        <div class="promo-timeline">
+            <div class="promo-item">
+                <div class="week">
+                    <span class="bilingual">
+                        <span class="zh">活動前 4 週</span>
+                        <span class="en">4 Weeks Before</span>
+                    </span>
+                </div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">LinkedIn 預熱宣傳</span>
+                        <span class="en">LinkedIn Pre-launch</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">個人貼文預告、邀請專業人脈、AI/科技領域人脈觸及</span>
+                        <span class="en">Personal posts, professional network invitations, AI/tech industry outreach</span>
+                    </span>
+                </p>
+            </div>
+            <div class="promo-item">
+                <div class="week">
+                    <span class="bilingual">
+                        <span class="zh">活動前 3 週</span>
+                        <span class="en">3 Weeks Before</span>
+                    </span>
+                </div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">Facebook 技術社群正式宣傳</span>
+                        <span class="en">Facebook Tech Community Launch</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">Taiwan Claude Users、AI/ML Taiwan、軟體工程師社群、DevOps Taiwan</span>
+                        <span class="en">Taiwan Claude Users, AI/ML Taiwan, Software Engineer Groups, DevOps Taiwan</span>
+                    </span>
+                </p>
+            </div>
+            <div class="promo-item">
+                <div class="week">
+                    <span class="bilingual">
+                        <span class="zh">活動前 2 週</span>
+                        <span class="en">2 Weeks Before</span>
+                    </span>
+                </div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">Threads / X 擴大曝光</span>
+                        <span class="en">Threads / X Expansion</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">短影音、活動亮點預告、#ClaudeCode #AI #Anthropic、與官方帳號互動</span>
+                        <span class="en">Short videos, highlights preview, hashtags, official account engagement</span>
+                    </span>
+                </p>
+            </div>
+            <div class="promo-item">
+                <div class="week">
+                    <span class="bilingual">
+                        <span class="zh">活動前 1 週</span>
+                        <span class="en">1 Week Before</span>
+                    </span>
+                </div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">全管道最後招募</span>
+                        <span class="en">Final Push Across All Channels</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">名額倒數提醒、發送提醒郵件給報名者</span>
+                        <span class="en">Countdown reminders, email notifications to registrants</span>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support">
+        <div class="section-header">
+            <div class="section-label">Support Request</div>
+            <h2 class="section-title">
+                <span class="bilingual">
+                    <span class="zh">原廠協助需求</span>
+                    <span class="en">Anthropic Support Request</span>
+                </span>
+            </h2>
+            <p class="section-subtitle">
+                <span class="bilingual">
+                    <span class="zh">希望 Anthropic 提供的資源與協助</span>
+                    <span class="en">Resources and assistance requested from Anthropic</span>
+                </span>
+            </p>
+        </div>
+        <div class="support-grid">
+            <div class="support-card">
+                <div class="amount">$550-800</div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">💰 資金贊助</span>
+                        <span class="en">💰 Financial Sponsorship</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">NT$ 18,000 - 25,000</span>
+                        <span class="en">NT$ 18,000 - 25,000</span>
+                    </span>
+                </p>
+                <ul class="check-list">
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">Pizza + 飲料 + 酒精飲料（50人份）</span>
+                            <span class="en">Pizza + Drinks + Alcohol (50 pax)</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">場地布置、海報、指示牌</span>
+                            <span class="en">Venue setup, posters, signage</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">場地由鈦坦提供（無需額外費用）</span>
+                            <span class="en">Venue provided by Titansoft (no cost)</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="support-card">
+                <div class="amount">45 min</div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">👨‍💻 工程師分享</span>
+                        <span class="en">👨‍💻 Engineer Talk</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">線上或現場分享</span>
+                        <span class="en">Online or In-person</span>
+                    </span>
+                </p>
+                <ul class="check-list">
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">Co-work 新功能深度介紹</span>
+                            <span class="en">In-depth Co-work feature introduction</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">約 45 分鐘（含 Q&A）</span>
+                            <span class="en">~45 minutes (including Q&A)</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">英文分享（可搭配中文翻譯）</span>
+                            <span class="en">English (Chinese translation available)</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="support-card">
+                <div class="amount">🎁</div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">官方紀念品</span>
+                        <span class="en">Official Merchandise</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">品牌周邊商品</span>
+                        <span class="en">Brand merchandise</span>
+                    </span>
+                </p>
+                <ul class="check-list">
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">Anthropic / Claude 官方貼紙</span>
+                            <span class="en">Official Anthropic / Claude stickers</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">品牌周邊商品（如有）</span>
+                            <span class="en">Brand swag (if available)</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">作為參加者禮物或抽獎獎品</span>
+                            <span class="en">As attendee gifts or raffle prizes</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="support-card">
+                <div class="amount">$5-10</div>
+                <h4>
+                    <span class="bilingual">
+                        <span class="zh">💳 Claude 額度</span>
+                        <span class="en">💳 Claude Credits</span>
+                    </span>
+                </h4>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">每位參加者</span>
+                        <span class="en">Per attendee</span>
+                    </span>
+                </p>
+                <ul class="check-list">
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">每人 $5-10 USD 額度</span>
+                            <span class="en">$5-10 USD credits per person</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">或特定期限訂閱</span>
+                            <span class="en">Or limited-time subscription</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="bilingual">
+                            <span class="zh">提升參與誘因</span>
+                            <span class="en">Incentivize participation</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Venue Section -->
+    <section id="venue">
+        <div class="section-header">
+            <div class="section-label">Venue</div>
+            <h2 class="section-title">
+                <span class="bilingual">
+                    <span class="zh">場地介紹</span>
+                    <span class="en">Venue Information</span>
+                </span>
+            </h2>
+        </div>
+        <div class="venue-content">
+            <div class="venue-gallery">
+                <div class="venue-slider" id="venueSlider">
+                    <div class="venue-slide">
+                        <!-- 圖片 1: 團隊合照（聖誕節便利貼牆） -->
+                        <img src="titansoft-team.jpg" alt="鈦坦科技團隊活動空間">
+                    </div>
+                    <div class="venue-slide">
+                        <!-- 圖片 2: 休閒交流區（啤酒聚會） -->
+                        <img src="titansoft-social.jpg" alt="鈦坦科技休閒交流區">
+                    </div>
+                    <div class="venue-slide">
+                        <!-- 圖片 3: 敏捷工作空間 -->
+                        <img src="titansoft-agile.jpg" alt="鈦坦科技敏捷工作空間">
+                    </div>
+                </div>
+                <button class="venue-nav prev" onclick="changeSlide(-1)">❮</button>
+                <button class="venue-nav next" onclick="changeSlide(1)">❯</button>
+                <div class="venue-dots">
+                    <button class="venue-dot active" onclick="goToSlide(0)"></button>
+                    <button class="venue-dot" onclick="goToSlide(1)"></button>
+                    <button class="venue-dot" onclick="goToSlide(2)"></button>
+                </div>
+            </div>
+            <div class="venue-info">
+                <h3>
+                    <span class="bilingual">
+                        <span class="zh">鈦坦科技辦公室</span>
+                        <span class="en">Titansoft Office</span>
+                    </span>
+                </h3>
+                <p>
+                    <span class="bilingual">
+                        <span class="zh">位於台北市南港區，交通便利，鄰近捷運站。專業的會議空間設備，穩定的網路環境，非常適合中小型技術聚會。開放式敏捷空間設計，促進團隊協作與交流。</span>
+                        <span class="en">Located in Nangang District, Taipei. Convenient transportation with MRT nearby. Professional meeting facilities, stable internet connection, perfect for small to medium tech meetups. Open agile workspace design promotes team collaboration.</span>
+                    </span>
+                </p>
+                <div class="venue-features">
+                    <span class="venue-feature">
+                        <span class="bilingual">
+                            <span class="zh">📍 南港區</span>
+                            <span class="en">📍 Nangang</span>
+                        </span>
+                    </span>
+                    <span class="venue-feature">
+                        <span class="bilingual">
+                            <span class="zh">🚇 近捷運</span>
+                            <span class="en">🚇 Near MRT</span>
+                        </span>
+                    </span>
+                    <span class="venue-feature">
+                        <span class="bilingual">
+                            <span class="zh">👥 40-50人</span>
+                            <span class="en">👥 40-50 pax</span>
+                        </span>
+                    </span>
+                    <span class="venue-feature">
+                        <span class="bilingual">
+                            <span class="zh">📺 投影設備</span>
+                            <span class="en">📺 Projector</span>
+                        </span>
+                    </span>
+                    <span class="venue-feature">
+                        <span class="bilingual">
+                            <span class="zh">📶 穩定 Wi-Fi</span>
+                            <span class="en">📶 Stable Wi-Fi</span>
+                        </span>
+                    </span>
+                    <span class="venue-feature">
+                        <span class="bilingual">
+                            <span class="zh">🍺 交流空間</span>
+                            <span class="en">🍺 Social Area</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Section -->
+        <div class="venue-video">
+            <div class="section-header" style="margin-top: 3rem;">
+                <div class="section-label">Office Tour</div>
+                <h2 class="section-title">
+                    <span class="bilingual">
+                        <span class="zh">辦公室導覽影片</span>
+                        <span class="en">Office Tour Video</span>
+                    </span>
+                </h2>
+            </div>
+            <a href="https://www.youtube.com/watch?v=h-gl5nl0NbU" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/h-gl5nl0NbU/maxresdefault.jpg" alt="鈦坦科技台北辦公室介紹" onerror="this.src='https://img.youtube.com/vi/h-gl5nl0NbU/hqdefault.jpg'">
+                <div class="play-button">
+                    <svg viewBox="0 0 68 48" width="68" height="48">
+                        <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f00"/>
+                        <path d="M 45,24 27,14 27,34" fill="#fff"/>
+                    </svg>
+                </div>
+                <div class="video-label">
+                    <span class="bilingual">
+                        <span class="zh">點擊觀看影片</span>
+                        <span class="en">Click to watch video</span>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison">
+        <div class="section-header">
+            <div class="section-label">Comparison</div>
+            <h2 class="section-title">
+                <span class="bilingual">
+                    <span class="zh">與上次活動比較</span>
+                    <span class="en">Comparison with Previous Event</span>
+                </span>
+            </h2>
+        </div>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="bilingual">
+                            <span class="zh">項目</span>
+                            <span class="en">Item</span>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="bilingual">
+                            <span class="zh">上次活動 (2025/12)</span>
+                            <span class="en">Previous (Dec 2025)</span>
+                        </span>
+                    </th>
+                    <th class="highlight-col">
+                        <span class="bilingual">
+                            <span class="zh">本次活動 (2026/03)</span>
+                            <span class="en">This Event (Mar 2026)</span>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">地點</span>
+                            <span class="en">Venue</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">台北市大安區</span>
+                            <span class="en">Da'an District, Taipei</span>
+                        </span>
+                    </td>
+                    <td class="highlight-col">
+                        <span class="bilingual">
+                            <span class="zh">南港・鈦坦科技</span>
+                            <span class="en">Nangang · Titansoft</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">人數</span>
+                            <span class="en">Capacity</span>
+                        </span>
+                    </td>
+                    <td>200+</td>
+                    <td class="highlight-col">40-50</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">時間</span>
+                            <span class="en">Time</span>
+                        </span>
+                    </td>
+                    <td>13:30 - 16:30</td>
+                    <td class="highlight-col">17:00 - 20:30</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">形式</span>
+                            <span class="en">Format</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">大型共同工作空間</span>
+                            <span class="en">Large co-working space</span>
+                        </span>
+                    </td>
+                    <td class="highlight-col">
+                        <span class="bilingual">
+                            <span class="zh">小型聚會深度交流</span>
+                            <span class="en">Intimate deep networking</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">餐飲</span>
+                            <span class="en">F&B</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="bilingual">
+                            <span class="zh">輕食點心</span>
+                            <span class="en">Light snacks</span>
+                        </span>
+                    </td>
+                    <td class="highlight-col">
+                        <span class="bilingual">
+                            <span class="zh">Pizza + 飲料 + 酒精</span>
+                            <span class="en">Pizza + Drinks + Alcohol</span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Contact Section -->
+    <section>
+        <div class="contact-section">
+            <h2>
+                <span class="bilingual">
+                    <span class="zh">聯絡資訊</span>
+                    <span class="en">Contact Information</span>
+                </span>
+            </h2>
+            <p>
+                <span class="bilingual">
+                    <span class="zh">如有任何問題或需要進一步討論，歡迎與我聯繫</span>
+                    <span class="en">Feel free to reach out for any questions or further discussion</span>
+                </span>
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="label">
+                        <span class="bilingual">
+                            <span class="zh">主辦人</span>
+                            <span class="en">Organizer</span>
+                        </span>
+                    </div>
+                    <div class="value">Leo Chiang</div>
+                </div>
+                <div class="contact-item">
+                    <div class="label">Email</div>
+                    <div class="value"><a href="mailto:leo.chiang@titansoft.com.sg">leo.chiang@titansoft.com.sg</a></div>
+                </div>
+                <div class="contact-item">
+                    <div class="label">
+                        <span class="bilingual">
+                            <span class="zh">公司</span>
+                            <span class="en">Company</span>
+                        </span>
+                    </div>
+                    <div class="value">
+                        <span class="bilingual">
+                            <span class="zh">鈦坦科技 Titansoft</span>
+                            <span class="en">Titansoft</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <span class="bilingual">
+                <span class="zh">文件建立日期：2026 年 1 月 31 日 | Claude Code Meetup Taipei</span>
+                <span class="en">Document created: January 31, 2026 | Claude Code Meetup Taipei</span>
+            </span>
+        </p>
+    </footer>
+
+    <script>
+        function toggleLanguage() {
+            const body = document.body;
+            if (body.classList.contains('lang-zh')) {
+                body.classList.remove('lang-zh');
+                body.classList.add('lang-en');
+            } else {
+                body.classList.remove('lang-en');
+                body.classList.add('lang-zh');
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.schedule-item, .feature-card, .support-card, .promo-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Venue Slider
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        function updateSlider() {
+            const slider = document.getElementById('venueSlider');
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            document.querySelectorAll('.venue-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        // Auto-advance slider every 5 seconds
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+    </script>
+</body>
+</html>
